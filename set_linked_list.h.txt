@@ -1,0 +1,92 @@
+#ifndef SET_LINKED_LIST_H_
+#define SET_LINKED_LIST_H_
+
+#include <ostream>
+
+class set {
+public:
+	struct node {
+		int value;
+		node *prev, *next;
+
+		node (int x) : value (x), prev (nullptr), next (nullptr) { }
+	};
+
+private:
+	size_t set_size;
+
+	node* head;
+public:
+	// Creates an empty set
+	set () : head (nullptr), set_size (0) { }
+
+	// Copy constructor
+	set (const set& q);
+
+	// Initializer list constructor
+	set (std::initializer_list<int> ilist);
+
+	// Copy assignment
+	set& operator=(const set& q);
+
+	// Insert an item into the set.
+	void insert (int val);
+
+	// Searches for an item in the set.
+	// If found, returns the node containing val; otherwise returns nullptr.
+	node* find (int val);
+
+	// Erases an item from the set. 
+	// If it is not in the set, does nothing.
+	void erase (int val);
+
+	// Erases the node "it" from the set. 
+	void erase (node *it);
+
+	// Remove everything from the set
+	void clear();
+
+	// Returns the number of items in the set
+	size_t size() const;
+
+	// Returns whether or not the set is currently empty
+	bool empty() const;
+
+	// Returns a pointer to the first node in the set.
+	node* begin () const;
+
+	// Merges the elements of set x into this set,
+	// and then clears the set x.
+	// If x is equal to this, does nothing.
+	// Should work in time O(size of this + size of x).
+	void merge (set& x);
+
+
+	// Print out the contents of the set
+	void print(std::ostream& out) const {
+
+		node* curr = head;
+
+		out << "[";
+		for (size_t i = 0; i < set_size; ++i) {
+			if (i > 0) {
+				out << ", ";
+			}
+			out << curr->value;
+			curr = curr->next;
+		}
+		out << "]";
+	}
+
+	// Destructor
+	~set();
+};
+
+inline std::ostream& operator<<(std::ostream& out, const set& stk) {
+	stk.print(out);
+	return out;
+}
+
+
+
+#endif /* SET_LINKED_LIST_H_ */
